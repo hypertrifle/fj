@@ -1,6 +1,10 @@
 package com.richsearle.modules;
 
+import ihx.ConsoleReader;
+
 class Input extends ModuleBase {
+
+	public var console:ConsoleReader;
 	
 	public function new(){
 		super();
@@ -9,25 +13,25 @@ class Input extends ModuleBase {
 	override public function main(params:Array<Dynamic>) {
 		super.main(params);
 
-		var cr = new ConsoleReader();
-        var cmdStr = cr.readLine();
-        Lib.println("\n" + cmdStr);
+		console = new ConsoleReader();
+        while( true )
+                {
+                    // initial prompt
+                    console.cmd.prompt = ">> ";
+                    FJ.print(">> ");
 
+                    while (true)
+                    {
+                        
+                        var line:String = console.readLine();
+						//do what we want with the command here (this is per line)
+						continue;
+
+                        FJ.print(">> ");
+                    }
+                }
 	}
 
-	public function one(params:Array<Dynamic>) {
-
-
-	}
-
-	public function twitch(params:Array<Dynamic>) {
-		var args:Array<String> = new Array<String>();
-
-		args.push(params.shift());
-		args.push('high');
-		args.push('--player-passthrough=hls');
-		FJ.runCommand('livestreamer',args);
-	}
 
 	public function _default(params:Array<Dynamic>) {
 

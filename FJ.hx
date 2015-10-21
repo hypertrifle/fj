@@ -2,6 +2,7 @@ import sys.FileSystem;
 import sys.io.File;
 import com.richsearle.modules.Hello;
 import com.richsearle.modules.Av;
+import com.richsearle.modules.Input;
 import sys.io.Process;
 import haxe.Http;
 
@@ -38,17 +39,17 @@ class FJ {
             var methodName = args.shift();
             var methodParams = args;
 
-            print("loading "+ moduleName +" module");
+            println("loading "+ moduleName +" module");
 
            // print("" +  ));
 
             if(Type.resolveClass("com.richsearle.modules."+moduleName) == null){
-                print(moduleName +" module not found");
+                println(moduleName +" module not found");
                 return;
             }
             var module = Type.createInstance(Type.resolveClass("com.richsearle.modules."+moduleName),[]);
 
-            print("loading "+ methodName +" method");
+            println("loading "+ methodName +" method");
 
             if(Reflect.isFunction(Reflect.field(module,methodName))){
 
@@ -69,21 +70,25 @@ class FJ {
                 var allFields = Type.getInstanceFields(Type.resolveClass("com.richsearle.modules."+moduleName));
                 for( ff in allFields ){
                   if(Reflect.isFunction(Reflect.field(module,ff))){
-                    print(ff);
+                    println(ff);
                   }
                 }
 
             }
 
         } else {
-            print("no module defined loading system status...");
+            println("no module defined loading system status...");
         }
 
 
     }
 
     public static function print(s:String){
-        neko.Lib.print("\n"+s);
+        neko.Lib.print(s);
+    }
+
+    public static function println(s:String){
+        neko.Lib.println(s);
     }
 
     public static function userInput(prompt:String, options:Array<String>):String {
@@ -109,7 +114,7 @@ class FJ {
 
         var stdout = p.stdout.readAll().toString();
         if(showOutput){
-            print(stdout);
+            println(stdout);
         }
         
 
@@ -122,7 +127,7 @@ class FJ {
 
        var result =  Http.requestUrl(url);
        if(showOutput){
-        print(result);
+        println(result);
        }
 
        return result;
