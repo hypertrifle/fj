@@ -35,6 +35,9 @@ class PartialCommand
     /** prompt to show **/
     public var prompt(null,default) :String;
 
+    public var predictFormatString:String = "\033[90m";
+    public var resetFormatString:String = "\033[39m";
+
     public function new(initialCommand="")
     {
         set(initialCommand);
@@ -125,7 +128,7 @@ class PartialCommand
     }
 
     public function predictComplete(){
-        set(str+predictString);
+        set(str+predictString+ " ");
     }
 
 
@@ -149,7 +152,7 @@ class PartialCommand
     **/
     public function toConsole()
     {
-        return "\r" + prompt + str + "\033[90m" + predictString + "\033[39m " + "\r" + prompt + str.substr(0, pos);
+        return "\r" + prompt + str + predictFormatString + predictString + resetFormatString +" " + "\r" + prompt + str.substr(0, pos);
     }
 
     /**

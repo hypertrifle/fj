@@ -26,7 +26,7 @@ class Predict
 
     public function new()
     {
-        commands = [""];
+        commands = [];
         pos = 1;
     }
 
@@ -49,13 +49,19 @@ class Predict
     }
 
     public function setPredictions(newPs:Array<String>) {
-        commands = newPs;
+        commands = (newPs.length == 0)? [""] : newPs;
     }
 
     public function next()
     {
         pos += 1;
         return commands[pos % commands.length];
+    }
+
+    public function current(){
+        //here we need to run the prediction algorithm.
+        return (pos == 0)? "" : commands[pos % commands.length];
+    
     }
 
     public function prev()

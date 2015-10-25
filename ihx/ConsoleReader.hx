@@ -51,16 +51,19 @@ class ConsoleReader
     private var code :Int;
     public var prediction :Predict;
     private var codeSet :CodeSet;
+    private var predictionCallback:String->Array<String>;
 
     public static function main()
     {
-        var cr = new ConsoleReader();
+        
+        var cr = new ConsoleReader(null);
         var cmdStr = cr.readLine();
         Lib.println("\n" + cmdStr);
     }
 
-    public function new()
+    public function new(_pc:String->Array<String>)
     {
+        predictionCallback = _pc;
         code = 0;
         cmd = new PartialCommand();
         prediction = new Predict();
@@ -108,8 +111,8 @@ class ConsoleReader
                 code = Sys.getChar(false);
                 switch( code )
                 {
-                case _ if(code == codeSet.up ):    cmd.set(prediction.prev());
-                case _ if(code == codeSet.down):   cmd.set(prediction.next());
+                case _ if(code == codeSet.up ):    cmd.setPredictionString(prediction.prev());
+                case _ if(code == codeSet.down):   cmd.setPredictionString(prediction.next());
                 case _ if(code == codeSet.right):  handleFoward();
                 case _ if(code == codeSet.left):   cmd.cursorBack();
                 case _ if(code == codeSet.home):   cmd.home();
@@ -151,6 +154,13 @@ class ConsoleReader
                 case _ if( code>=32 && code<=126 ): addChar(code);
                 }
             }
+            //FJ.println("cmd :" + cmd.toString());
+
+            var results = predictionCallback(cmd.toString());
+            
+
+            prediction.setPredictions(results);
+            cmd.setPredictionString(prediction.current());
             Lib.print(clearPrevCommand);
             Lib.print(cmd.toConsole());
         }

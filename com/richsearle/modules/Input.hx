@@ -13,7 +13,7 @@ class Input extends ModuleBase {
 	override public function main(params:Array<Dynamic>) {
 		super.main(params);
 
-		console = new ConsoleReader();
+		console = new ConsoleReader(predictionMethod);
         while( true )
                 {
                     // initial prompt
@@ -36,5 +36,6 @@ class Input extends ModuleBase {
 	public function _default(params:Array<Dynamic>) {
 
 	}
+
 
 }
